@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="C&#x2F;C++八股">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/2024/05/29/C++/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="C&#x2F;C++八股">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-05-29T05:39:57.692Z">
+<meta property="article:modified_time" content="2024-07-13T15:49:09.652Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-C++" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/05/29/C++/" class="article-date">
+  <time class="dt-published" datetime="2024-05-29T05:39:57.692Z" itemprop="datePublished">2024-05-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="C-C-八股"><a href="#C-C-八股" class="headerlink" title="C&#x2F;C++八股"></a>C&#x2F;C++八股</h1><span id="more"></span>
+
+<h3 id="内存对齐"><a href="#内存对齐" class="headerlink" title="内存对齐"></a>内存对齐</h3><p>面试题：struct判断大小。有union的时候情况。</p>
+<h5 id="内存对齐三条规则"><a href="#内存对齐三条规则" class="headerlink" title="内存对齐三条规则"></a>内存对齐三条规则</h5><ol>
+<li>数据成员对齐规则，结构体(struct)(或联合(union))的数据成员，第一个数据成员存放在offset为0的地方，以后每个数据成员存储的起始位置要从该成员大小或者成员的子成员(只要该成员有子成员，比如数组、结构体等)大小的整数倍开始(如：int 在 64bit 目标平台下占用 4Byte，则要从4的整数倍地址开始存储)</li>
+<li>结构体作为成员，如果一个结构体里有某些结构体成员，则结构体成员要从其内部最大元素大小的整数倍地址开始存储</li>
+<li>结构体的总大小，即sizeof的结果，必须是其内部最大成员长度(即前面内存对齐指令中提到的有效值)的整数倍，不足的要补齐</li>
+<li>当有指定对齐值时，需要对自身对齐值和指定对齐值取其中的最小值来确定对齐值</li>
+</ol>
+<h5 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h5><ol>
+<li><p>数组在内存中存储时是分开存储的，char类型的数组每个元素是 1Byte，内存对齐时按照单个元素进行对齐</p>
+</li>
+<li><p>union(联合体)类型中的数据共用内存，联合的所有成员共用一段内存空间，存储地址的起始位置都相同，一般来说最大成员的内存宽度作为union的内存大小，主要的原因是为了节省内存空间，默认的访问权限是公有的，但是它同样要遵守内存对齐的原则，特别是第3条规则</p>
+<p>union取最大成员 并且得是其他成员的整数倍</p>
+</li>
+<li><p>C++中空结构体占用 1Byte</p>
+</li>
+<li><p>C++中空类同样是占用 1Byte的内存空间</p>
+</li>
+<li><p>类和结构体一样，需要内存对齐</p>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"> struct A</span><br><span class="line">&#123;</span><br><span class="line">    union B</span><br><span class="line">    &#123;</span><br><span class="line">        char* pc;</span><br><span class="line">        int z; </span><br><span class="line">    &#125;;</span><br><span class="line">&#125;; //1, struct A is empty struct</span><br><span class="line">struct AA</span><br><span class="line">&#123;</span><br><span class="line">    union</span><br><span class="line">    &#123;</span><br><span class="line">        char* pc;</span><br><span class="line">        int z; </span><br><span class="line">    &#125;; </span><br><span class="line"> </span><br><span class="line">&#125;;//32-bit: 4, 64-bit: 8</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="函数模板-模板函数"><a href="#函数模板-模板函数" class="headerlink" title="函数模板 模板函数"></a>函数模板 模板函数</h3><h4 id="函数模板：定义一个函数的通用形式"><a href="#函数模板：定义一个函数的通用形式" class="headerlink" title="函数模板：定义一个函数的通用形式"></a>函数模板：定义一个函数的通用形式</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt;//定义一个模板参数列表 class也可以替换typename</span><br><span class="line">bool compare(T a, T b)//compare 是一个函数模板</span><br><span class="line">&#123;</span><br><span class="line">	cout &lt;&lt; &quot;template compare&quot; &lt;&lt; endl;</span><br><span class="line">	return a &gt; b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="模板函数：是函数模板实例化的形式（模板生成的函数）"><a href="#模板函数：是函数模板实例化的形式（模板生成的函数）" class="headerlink" title="模板函数：是函数模板实例化的形式（模板生成的函数）"></a>模板函数：是函数模板实例化的形式（模板生成的函数）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">bool compare&lt;int&gt;(int a, int b)</span><br><span class="line">&#123;</span><br><span class="line">	return a &gt; b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="auto-decltype"><a href="#auto-decltype" class="headerlink" title="auto decltype"></a>auto decltype</h3><h4 id="auto：用于在声明变量时让编译器自动推导出变量的类型"><a href="#auto：用于在声明变量时让编译器自动推导出变量的类型" class="headerlink" title="auto：用于在声明变量时让编译器自动推导出变量的类型"></a>auto：用于在声明变量时让编译器自动推导出变量的类型</h4><h4 id="decltype：用于推导表达式的类型"><a href="#decltype：用于推导表达式的类型" class="headerlink" title="decltype：用于推导表达式的类型"></a>decltype：用于推导表达式的类型</h4><h4 id="STL不是线程安全的"><a href="#STL不是线程安全的" class="headerlink" title="STL不是线程安全的"></a>STL不是线程安全的</h4><h4 id="析构函数添加virtual声明"><a href="#析构函数添加virtual声明" class="headerlink" title="析构函数添加virtual声明"></a>析构函数添加virtual声明</h4><p>默认情况只会调用基类的析构函数，声明virtual后，才会调用子类的析构函数</p>
+<h4 id="strlen-计算字符串长度-不包含结束符号"><a href="#strlen-计算字符串长度-不包含结束符号" class="headerlink" title="strlen 计算字符串长度 不包含结束符号"></a>strlen 计算字符串长度 不包含结束符号</h4><h4 id="strcpy-会复制结束符。复制到结束符才会停止，会有溢出问题"><a href="#strcpy-会复制结束符。复制到结束符才会停止，会有溢出问题" class="headerlink" title="strcpy 会复制结束符。复制到结束符才会停止，会有溢出问题"></a>strcpy 会复制结束符。复制到结束符才会停止，会有溢出问题</h4><h4 id="memcpy-会根据要复制的长度进行复制"><a href="#memcpy-会根据要复制的长度进行复制" class="headerlink" title="memcpy 会根据要复制的长度进行复制"></a>memcpy 会根据要复制的长度进行复制</h4><h4 id="多态实现-是怎么去找到调用哪个函数的呢"><a href="#多态实现-是怎么去找到调用哪个函数的呢" class="headerlink" title="多态实现  是怎么去找到调用哪个函数的呢"></a>多态实现  是怎么去找到调用哪个函数的呢</h4><p>虚函数表属于类，类的所有对象共享这个类的虚函数表。<br>不同对象虚函数表是一样的（虚函数表的第一个函数地址相同）；<br>每个对象内部都保存一个指向该类虚函数表的指针vptr，每个对象的vptr的存放地址都不一样，但是都指向同一虚函数表。</p>
+<p>那么虚函数表存放在哪里呢？<br>虽然我们知道vptr指向虚函数表，那么虚函数表具体存放在内存哪个位置呢，虽然这里我们已经可以得到虚函数表的地址。实际上虚函数指针是在构造函数执行时初始化的，而虚函数表是存放在可执行文件中的。</p>
+<h5 id="构造函数不能声明为虚函数的原因"><a href="#构造函数不能声明为虚函数的原因" class="headerlink" title="构造函数不能声明为虚函数的原因"></a>构造函数不能声明为虚函数的原因</h5><p>1 构造一个对象的时候，必须知道对象的实际类型，而虚函数行为是在运行期间确定实际类型的。<br>而在构造一个对象时，由于对象还未构造成功。编译器无法知道对象 的实际类型，是该类本身，<br>还是该类的一个派生类，或是更深层次的派生类。无法确定。</p>
+<p>2 虚函数的执行依赖于虚函数表。而虚函数表在构造函数中进行初始化工作，即初始化vptr，<br>让他指向正确的虚函数表。<br>而在构造对象期间，虚函数表还没有被初 始化，将无法进行。</p>
+<h4 id="构造和析构-父类和子类的顺序"><a href="#构造和析构-父类和子类的顺序" class="headerlink" title="构造和析构  父类和子类的顺序"></a>构造和析构  父类和子类的顺序</h4><h4 id="set和map底层实现-红黑树的特性"><a href="#set和map底层实现-红黑树的特性" class="headerlink" title="set和map底层实现 红黑树的特性"></a>set和map底层实现 红黑树的特性</h4><h4 id="左值引用和右值引用"><a href="#左值引用和右值引用" class="headerlink" title="左值引用和右值引用"></a>左值引用和右值引用</h4><p>左值引用是一个在内存中有具体内存分配的，具有名字的变量的引用 引用的是一个对象</p>
+<p>右值引用   对于一个地址里面的值，给他加上一个名字进行引用</p>
+<h4 id="指针常量-常量指针"><a href="#指针常量-常量指针" class="headerlink" title="指针常量 常量指针"></a>指针常量 常量指针</h4><h4 id="指针数组-数组指针"><a href="#指针数组-数组指针" class="headerlink" title="指针数组 数组指针"></a>指针数组 数组指针</h4><p>引用传递和指针传递是不同的，虽然他们都是在被调函数栈空间上的一个局部变量，但是任何对于引用参数的处理都会通过一个间接寻址的方式操作到主调函数中的相关变量。</p>
+<h4 id="编译优化等级"><a href="#编译优化等级" class="headerlink" title="编译优化等级"></a>编译优化等级</h4><p>编译器的优化级别O0、O1、O2和O3在代码编译时提供了不同的优化程度，它们的主要区别在于编译时间、目标文件大小和执行效率之间的平衡。</p>
+<p>O0（无优化）：这是默认的优化级别，编译器不执行任何优化。它主要用于调试目的，因为在此级别下，编译器会尽量保持源代码的原始结构，使得调试信息更加准确。此外，O0级别下的编译时间通常是最短的。<br>O1（基本优化）：这个级别执行一些基本的优化操作，如删除未使用的变量、内联简单函数等。这些优化可以提高代码的执行效率，同时保持较快的编译速度。与O0相比，O1级别在编译时间和执行效率之间达到了一个较好的平衡。<br>O2（中级优化）：在O1的基础上，O2级别进行了更多的优化操作，包括更大范围的内联、循环展开、函数调用图优化等。这些优化可以显著提高代码的性能，但编译时间可能会稍长。O2级别是推荐的优化等级，除非有特殊需求。<br>O3（高级优化）：在O2的基础上，O3级别进行了更深入的优化操作，如更大范围的内联、循环变形、自动向量化等。这可以进一步提高代码的性能，但编译时间可能大幅增加。使用O3级别需要权衡编译时间和执行效率之间的关系。</p>
+<p>循环展开</p>
+<h4 id="CPU如何执行指令-加载数据"><a href="#CPU如何执行指令-加载数据" class="headerlink" title="CPU如何执行指令&#x2F;加载数据"></a>CPU如何执行指令&#x2F;加载数据</h4><p>IP去寻址，得到指令 指令译码器解析翻译成CPU能理解的形式  ，告诉ALU应该怎么去操作</p>
+<p>加载数据   寻址的过程。</p>
+<h4 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h4><p>FIFO</p>
+<p>LRU</p>
+<p>LFU</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/05/29/C++/" data-id="clykah96s0001skv1ddkm8yhc" data-title="" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2024/06/18/10.OS%E6%94%AF%E6%8C%81%E7%89%B9%E6%80%A7/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2024/05/27/CS144%20TCP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/07/">July 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/06/">June 2024</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/05/">May 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/07/13/CortexM3-4-part10-OS%E6%94%AF%E6%8C%81/">CortexM3/4 part10 OS支持</a>
+          </li>
+        
+          <li>
+            <a href="/2024/07/13/Git%E5%BC%80%E5%8F%91%E4%BD%BF%E7%94%A8/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/06/18/10.OS%E6%94%AF%E6%8C%81%E7%89%B9%E6%80%A7/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/05/29/C++/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2024/05/27/CS144%20TCP/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
